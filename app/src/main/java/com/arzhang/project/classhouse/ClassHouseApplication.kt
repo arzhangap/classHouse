@@ -1,4 +1,8 @@
 package com.arzhang.project.classhouse
 
-class ClassHouseApplication {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class ClassHouseApplication : Application() {
 }
