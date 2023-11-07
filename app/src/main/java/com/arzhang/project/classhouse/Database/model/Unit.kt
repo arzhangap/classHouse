@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity("unit")
-data class Unit(
+@Entity("course_unit")
+data class CourseUnit(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo("unit_number")

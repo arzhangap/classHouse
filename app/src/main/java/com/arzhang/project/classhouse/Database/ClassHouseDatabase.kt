@@ -8,11 +8,11 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.arzhang.project.classhouse.Database.model.Article
 import com.arzhang.project.classhouse.Database.model.Course
-import com.arzhang.project.classhouse.Database.model.Unit
+import com.arzhang.project.classhouse.Database.model.CourseUnit
 import com.arzhang.project.classhouse.Local.Converters
 import com.arzhang.project.classhouse.Local.genCourse
 
-@Database(entities = [Article::class, Course::class, Unit::class], version = 1, exportSchema = false)
+@Database(entities = [Article::class, Course::class, CourseUnit::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class ClassHouseDatabase : RoomDatabase() {
 
