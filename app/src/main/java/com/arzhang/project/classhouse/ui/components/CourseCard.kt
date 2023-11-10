@@ -5,6 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,8 +24,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arzhang.project.classhouse.Database.model.Course
+import com.arzhang.project.classhouse.ui.theme.ClassHouseTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,23 +38,14 @@ fun CourseCard(
 ) {
     Card(
         elevation = CardDefaults.cardElevation(),
-        modifier = modifier,
+        modifier = modifier.size(width = 250.dp, height = 150.dp),
         shape = RoundedCornerShape(20),
-        onClick = { onItemClick(course.id) }
+        onClick = { onItemClick(course.id) },
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(190.dp)
-        ) {
             CourseCardImage(
                 course = course,
-                Modifier.weight(3f)
+                Modifier.weight(1f)
             )
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-            ) {
                 Text(
                     text = course.name,
                     style = MaterialTheme.typography.headlineMedium,
@@ -59,8 +54,6 @@ fun CourseCard(
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp, vertical = 5.dp)
                 )
-            }
-        }
     }
 }
 
@@ -74,8 +67,17 @@ private fun CourseCardImage(course: Course, modifier: Modifier = Modifier) {
             painter = painterResource(context.resources.getIdentifier(course.image,"drawable",context.packageName)),
             contentDescription = null,
             alignment = Alignment.Center,
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier.fillMaxWidth()
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
         )
     }
+}
+
+@Preview
+@Composable
+fun CourseCardPreview() {
+    ClassHouseTheme {
+        CourseCard(course = Course(1, "dd", "python", 1, false), onItemClick = {})
+    }
+
 }

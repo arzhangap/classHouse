@@ -3,4 +3,7 @@
     <string name="main">Main</string>
     <string name="category">Category</string>
     <string name="profile">Profile</string>
+    <string name="latestPots">آخرین پست ها</string>
+    <string name="popular">پربازدیدترین ها</string>
+    <string name="editorschoice">\منتخب</string>
 </resources>
