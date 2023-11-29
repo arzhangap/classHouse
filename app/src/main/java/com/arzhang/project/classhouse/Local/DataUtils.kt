@@ -1,8 +1,8 @@
 package com.arzhang.project.classhouse.Local
 
-import com.arzhang.project.classhouse.Database.model.Category
-import com.arzhang.project.classhouse.Database.model.Course
-import java.sql.Date
+import com.arzhang.project.classhouse.database.model.Category
+import com.arzhang.project.classhouse.database.model.Course
+import com.arzhang.project.classhouse.R
 
 fun genCourse(): List<Course> {
     return listOf(
@@ -19,11 +19,17 @@ fun genCourse(): List<Course> {
 
 object LocalDataProvider {
     val categories = listOf<Category>(
-        Category(1,"ریاضی"),
-        Category(2,"برنامه نویسی"),
-        Category(3,"شیمی"),
-        Category(4,"نقاشی"),
-        Category(5,"عکاسی"),
-        Category(6,"فیلم"),
+        Category(1,"ریاضی", R.drawable.python),
+        Category(2,"برنامه نویسی",R.drawable.python),
+        Category(3,"شیمی",R.drawable.python),
+        Category(4,"نقاشی",R.drawable.python),
+        Category(5,"عکاسی",R.drawable.python),
+        Category(6,"فیلم",R.drawable.python),
+        Category(7,"نقاشی",R.drawable.python),
+        Category(8,"عکاسی",R.drawable.python),
+        Category(9,"فیلم",R.drawable.python),
+        Category(10,"فیلم",R.drawable.python),
+        Category(11,"نقاشی",R.drawable.python),
+        Category(12,"عکاسی",R.drawable.python),
     )
 }

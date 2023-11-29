@@ -1,32 +1,44 @@
 package com.arzhang.project.classhouse.Screen.Article
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.util.Util
-import androidx.media3.datasource.DefaultDataSourceFactory
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import com.arzhang.project.classhouse.Database.model.Article
+import com.arzhang.project.classhouse.database.model.Article
 import com.arzhang.project.classhouse.ui.components.Exo
 
 @Composable
 fun ArticleScreen(
     articleId: Int
 ) {
-    val article = Article(articleId, "momo", "mom","https://dl200.ftk.pw/?s=19&f=/user/shahab4/film/The.Love.Bug.1968.480p.Farsi.Dubbed.mp4", 1)
+    val article = Article(articleId, "momo", "mom","https://dl200.ftk.pw/?s=19&f=/user/shahab4/film/The.Love.Bug.1968.480p.Farsi.Dubbed.mp4","2020/06/31", 1)
     // Declaring ExoPlayer
-    Column {
+    Surface(
+        color = MaterialTheme.colorScheme.secondary,
+        modifier = Modifier
+            .padding(top = 18.dp, start = 5.dp, end = 5.dp)
+            .fillMaxSize(),
+        shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+    {
+        Column {
         Exo(article.videoUrl, Modifier.height(200.dp))
-        Text(article.name)
-        Text(article.content)
+            Row(Modifier.fillMaxWidth().padding(10.dp), Arrangement.SpaceBetween) {
+                Text(text = article.name, style = MaterialTheme.typography.titleSmall)
+                Text(text = article.date, style = MaterialTheme.typography.titleSmall)
+            }
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+            Text(article.content, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(horizontal = 10.dp))
+        }
+        }
     }
-}

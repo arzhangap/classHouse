@@ -1,8 +1,8 @@
 package com.arzhang.project.classhouse.Di
 
 import android.content.Context
-import com.arzhang.project.classhouse.Database.ClassHouseDao
-import com.arzhang.project.classhouse.Database.ClassHouseDatabase
+import com.arzhang.project.classhouse.database.ClassHouseDao
+import com.arzhang.project.classhouse.database.ClassHouseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ object DatabaseModule {
     }
 
     @Provides
-    fun provideFlightDao(appDatabase: ClassHouseDatabase): ClassHouseDao {
+    fun provideClassHouseDao(appDatabase: ClassHouseDatabase): ClassHouseDao {
         return appDatabase.classHouseDao()
     }
 
