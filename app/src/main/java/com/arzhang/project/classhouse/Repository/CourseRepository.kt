@@ -4,6 +4,7 @@ import com.arzhang.project.classhouse.database.ClassHouseDao
 import com.arzhang.project.classhouse.database.model.Article
 import com.arzhang.project.classhouse.database.model.Course
 import com.arzhang.project.classhouse.database.model.CourseUnit
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
@@ -14,6 +15,7 @@ interface CourseRepository {
     fun getCourse(courseId: Int) : Course
     fun getArticle(articleId: Int) : Article
     suspend fun update(course: Course)
+    fun getFavourites() : Flow<List<Course>>
 }
 
 class OfflineCourseRepository @Inject constructor(
@@ -25,4 +27,5 @@ class OfflineCourseRepository @Inject constructor(
     override fun getCourse(courseId: Int): Course = classHouseDao.getCourse(courseId = courseId)
     override fun getArticle(articleId: Int): Article = classHouseDao.getArticle(articleId)
     override suspend fun update(course: Course)  = classHouseDao.update(course)
+    override fun getFavourites(): Flow<List<Course>> = classHouseDao.getFavCourses()
 }

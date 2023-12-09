@@ -14,20 +14,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.arzhang.project.classhouse.database.model.Course
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.arzhang.project.classhouse.ui.components.CourseCard
 
 @Composable
 fun ProfileScreen(
-//    favCourse: List<Course>,
+    viewModel: ProfileViewModel = hiltViewModel(),
     onClick: (Int) -> Unit
 ) {
-    val mockDATA = mutableListOf<Course>()
-    repeat(8) {mockDATA.add(Course(1,"firsr","python",1,false))}
+//    val mockDATA = mutableListOf<Course>()
+//    repeat(8) {mockDATA.add(Course(1,"firsr","python",1,false))}
+    val courses by viewModel.uiState.collectAsState()
     Column(verticalArrangement = Arrangement.SpaceBetween) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
@@ -39,7 +42,7 @@ fun ProfileScreen(
         }
         Divider(thickness = 1.dp, color = Color.Gray)
         LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-           items(mockDATA) { course ->
+           items(courses) { course ->
                CourseCard(course = course, onItemClick = {onClick(course.id)},Modifier.padding(8.dp))
            }
         }

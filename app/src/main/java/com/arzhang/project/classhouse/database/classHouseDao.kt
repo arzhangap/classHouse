@@ -7,6 +7,7 @@ import androidx.room.Update
 import com.arzhang.project.classhouse.database.model.Article
 import com.arzhang.project.classhouse.database.model.Course
 import com.arzhang.project.classhouse.database.model.CourseUnit
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ClassHouseDao {
@@ -36,7 +37,7 @@ interface ClassHouseDao {
 //    fun getChosenCourses() : List<Course>
 
     @Query("SELECT * FROM course WHERE course.is_fav = 1 ORDER BY id ASC")
-    fun getFavCourses() : List<Course>
+    fun getFavCourses() : Flow<List<Course>>
 
     @Query("SELECT * FROM course WHERE category_id = :category ORDER BY id ASC")
     fun getCategoryCourses(category: Int) : List<Course>
