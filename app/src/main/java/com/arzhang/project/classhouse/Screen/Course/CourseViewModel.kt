@@ -1,21 +1,21 @@
 package com.arzhang.project.classhouse.Screen.Course
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.arzhang.project.classhouse.Repository.CourseRepository
 import com.arzhang.project.classhouse.database.model.Article
+import com.arzhang.project.classhouse.database.model.Course
 import com.arzhang.project.classhouse.database.model.CourseUnit
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class CourseUiState(
+    val course: Course = Course(),
     val units: List<CourseUnit> = emptyList(),
     val articles: List<List<Article>> = emptyList()
 )
@@ -33,8 +33,17 @@ class CourseViewModel @AssistedInject constructor(
 
     private fun makeReady() {
         viewModelScope.launch(Dispatchers.IO) {
+            getCourse()
             getUnits()
             getArticleForUnit()
+        }
+    }
+
+    private fun getCourse() {
+        _uiState.update {
+            it.copy(
+                repository.getCourse(courseId)
+            )
         }
     }
 
@@ -56,22 +65,17 @@ class CourseViewModel @AssistedInject constructor(
         _uiState.update { it.copy(articles = allArticles) }
     }
 
+    fun updateFav() {
+        val newCourse = _uiState.value.course.copy(isFav = !_uiState.value.course.isFav)
+        _uiState.update { it.copy(course = newCourse) }
+        viewModelScope.launch {
+            repository.update(newCourse)
+        }
+    }
+
     @AssistedFactory
     interface CourseViewModelFactory {
         fun create(id: Int) : CourseViewModel
-    }
-
-    companion object {
-        @Suppress("UNCHECKED_CAST")
-        fun provideFactory(
-            assistedFactory: CourseViewModelFactory, // this is the Factory interface
-            // declared above
-            courseId: Int
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(courseId) as T
-            }
-        }
     }
 }
 

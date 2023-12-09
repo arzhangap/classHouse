@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "article")
 data class Article (
     @PrimaryKey
-    val id: Int,
-    val name: String,
-    val content: String,
+    val id: Int = 0,
+    val name: String = "",
+    val content: String = "",
     @ColumnInfo(name="video_url")
-    val videoUrl: String,
-    val date: String,
+    val videoUrl: String = "",
+    val date: String = "",
     @ColumnInfo(name="unit_id")
-    val unitId: Int
+    val unitId: Int = 0
 )

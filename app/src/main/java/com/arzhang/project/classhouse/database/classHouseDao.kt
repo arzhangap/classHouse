@@ -3,6 +3,7 @@ package com.arzhang.project.classhouse.database
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Update
 import com.arzhang.project.classhouse.database.model.Article
 import com.arzhang.project.classhouse.database.model.Course
 import com.arzhang.project.classhouse.database.model.CourseUnit
@@ -24,6 +25,9 @@ interface ClassHouseDao {
 
     @Query("SELECT * FROM article WHERE id = :articleId")
     fun getArticle(articleId: Int) : Article
+
+    @Update(entity = Course::class)
+    suspend fun update(course: Course)
 
 //    @Query("SELECT * FROM course ORDER BY RAND() ASC LIMIT 10")
 //    fun getMostViewedCourses() : List<Course>

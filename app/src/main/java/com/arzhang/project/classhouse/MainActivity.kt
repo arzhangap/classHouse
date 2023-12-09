@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.arzhang.project.classhouse.Local.LocalDataProvider
 import com.arzhang.project.classhouse.Screen.Article.ArticleScreen
+import com.arzhang.project.classhouse.Screen.Article.ArticleViewModel
 import com.arzhang.project.classhouse.Screen.Course.CourseScreen
 import com.arzhang.project.classhouse.Screen.Course.CourseViewModel.CourseViewModelFactory
 import com.arzhang.project.classhouse.Screen.Home.Category.CategoryScreen
@@ -32,6 +33,9 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var articleFactory: ArticleViewModel.ArticleViewModelFactory;
 
     @Inject
     lateinit var serviceFactory: CourseViewModelFactory;
@@ -94,7 +98,8 @@ class MainActivity : ComponentActivity() {
                             ) { backStackEntry ->
                                 val articleId = backStackEntry.arguments?.getInt("articleId")
                                 if (articleId != null) {
-                                    ArticleScreen(articleId = articleId)
+                                    val viewModel = articleFactory.create(articleId)
+                                    ArticleScreen(viewModel)
                                 } else {
                                     Text("Article Not Found")
                                 }

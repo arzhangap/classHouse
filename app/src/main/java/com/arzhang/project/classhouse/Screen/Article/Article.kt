@@ -13,16 +13,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arzhang.project.classhouse.database.model.Article
 import com.arzhang.project.classhouse.ui.components.Exo
 
 @Composable
 fun ArticleScreen(
-    articleId: Int
+    viewModel: ArticleViewModel
 ) {
-    val article = Article(articleId, "momo", "mom","https://dl200.ftk.pw/?s=19&f=/user/shahab4/film/The.Love.Bug.1968.480p.Farsi.Dubbed.mp4","2020/06/31", 1)
+    val article by viewModel.uiState.collectAsState()
     // Declaring ExoPlayer
     Surface(
         color = MaterialTheme.colorScheme.secondary,
@@ -33,7 +34,10 @@ fun ArticleScreen(
     {
         Column {
         Exo(article.videoUrl, Modifier.height(200.dp))
-            Row(Modifier.fillMaxWidth().padding(10.dp), Arrangement.SpaceBetween) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp), Arrangement.SpaceBetween) {
                 Text(text = article.name, style = MaterialTheme.typography.titleSmall)
                 Text(text = article.date, style = MaterialTheme.typography.titleSmall)
             }
