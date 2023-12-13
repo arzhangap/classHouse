@@ -16,6 +16,7 @@ interface CourseRepository {
     fun getArticle(articleId: Int) : Article
     suspend fun update(course: Course)
     fun getFavourites() : Flow<List<Course>>
+    fun getCategoryCourses(categoryId: Int) : List<Course>
 }
 
 class OfflineCourseRepository @Inject constructor(
@@ -28,4 +29,5 @@ class OfflineCourseRepository @Inject constructor(
     override fun getArticle(articleId: Int): Article = classHouseDao.getArticle(articleId)
     override suspend fun update(course: Course)  = classHouseDao.update(course)
     override fun getFavourites(): Flow<List<Course>> = classHouseDao.getFavCourses()
+    override fun getCategoryCourses(categoryId: Int): List<Course> = classHouseDao.getCategoryCourses(categoryId)
 }

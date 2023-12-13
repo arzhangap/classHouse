@@ -10,6 +10,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -20,15 +22,17 @@ import com.arzhang.project.classhouse.ui.components.CourseCard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    categoryId : Int,
+    viewModel: SearchViewModel,
+    category: String,
     onCourseClick: (Int) -> Unit
 ) {
+    val courses by viewModel.uiState.collectAsState()
     val mockDATA = mutableListOf<Course>()
     repeat(8) {mockDATA.add(Course(1,"firsr","python",1,false))}
     Column {
-        TopAppBar(title = { Text("ریاضی", textAlign = TextAlign.Center) })
+        TopAppBar(title = { Text(category, textAlign = TextAlign.Center) })
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-            items(mockDATA) { course ->
+            items(courses) { course ->
                 CourseCard(course = course, onItemClick = {onCourseClick(course.id)}, modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)

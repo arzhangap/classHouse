@@ -25,6 +25,7 @@ import com.arzhang.project.classhouse.Screen.Home.Category.CategoryScreen
 import com.arzhang.project.classhouse.Screen.Home.Main.MainScreen
 import com.arzhang.project.classhouse.Screen.Home.Profile.ProfileScreen
 import com.arzhang.project.classhouse.Screen.Search.SearchScreen
+import com.arzhang.project.classhouse.Screen.Search.SearchViewModel.SearchViewModelFactory
 import com.arzhang.project.classhouse.ui.components.HomeNavigationBar
 import com.arzhang.project.classhouse.ui.components.MyAppBar
 import com.arzhang.project.classhouse.ui.theme.ClassHouseTheme
@@ -35,10 +36,11 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var articleFactory: ArticleViewModel.ArticleViewModelFactory;
-
+    lateinit var articleFactory: ArticleViewModel.ArticleViewModelFactory
     @Inject
-    lateinit var serviceFactory: CourseViewModelFactory;
+    lateinit var serviceFactory: CourseViewModelFactory
+    @Inject
+    lateinit var searchFactory: SearchViewModelFactory
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,8 +68,8 @@ class MainActivity : ComponentActivity() {
                             composable(HomeDestinations.Category.name) {
                                 CategoryScreen(
                                     categories = LocalDataProvider.categories,
-                                    onCategoryClick = {
-                                        navController.navigate("search/$it")
+                                    onCategoryClick = { id, name ->
+                                        navController.navigate("search/$id+$name")
                                     })
                             }
                             composable(HomeDestinations.Profile.name) {
@@ -105,14 +107,18 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                             composable(
-                                "search/{categoryId}",
+                                "search/{categoryId}+{categoryName}",
                                 arguments = listOf(navArgument("categoryId") {
                                     type = NavType.IntType
+                                },navArgument("categoryName") {
+                                    type = NavType.StringType
                                 })
                             ) { backStackEntry ->
                                 val categoryId = backStackEntry.arguments?.getInt("categoryId")
+                                val categoryName = backStackEntry.arguments?.getString("categoryName") ?: "دسته بندی"
                                 if (categoryId != null) {
-                                    SearchScreen(categoryId, onCourseClick = {navController.navigate("course/$it")})
+                                    val viewModel = searchFactory.create(categoryId)
+                                    SearchScreen(viewModel, categoryName, onCourseClick = {navController.navigate("course/$it")})
                                 } else {
                                     Text("Article Not Found")
                                 }

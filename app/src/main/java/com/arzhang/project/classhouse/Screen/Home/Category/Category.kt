@@ -26,11 +26,11 @@ import com.arzhang.project.classhouse.database.model.Category
 @Composable
 fun CategoryScreen(
     categories: List<Category>,
-    onCategoryClick: (Int) -> Unit
+    onCategoryClick: (Int, String) -> Unit
 ) {
     LazyVerticalGrid(columns = GridCells.Fixed(3), contentPadding = PaddingValues(vertical = 10.dp),) {
         items(categories) {
-            CategoryCard(category = it, Modifier.padding(vertical = 10.dp).clickable { onCategoryClick(it.id) })
+            CategoryCard(category = it, Modifier.padding(vertical = 10.dp).clickable { onCategoryClick(it.id, it.name) })
         }
     }
 }
