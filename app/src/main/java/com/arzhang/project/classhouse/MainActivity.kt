@@ -85,7 +85,7 @@ class MainActivity : ComponentActivity() {
                                     val viewModel = serviceFactory.create(id)
                                     CourseScreen(
                                         viewModel = viewModel,
-                                        onItemClick = { navController.navigate("article/$id") })
+                                        onItemClick = { navController.navigate("article/$it") })
                                 } else
                                 {
                                     Text(text = "not found")}
