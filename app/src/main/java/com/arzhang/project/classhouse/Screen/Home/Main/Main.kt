@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,22 +35,28 @@ fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val mockDATA = mutableListOf<Course>()
-    repeat(8) {mockDATA.add(Course(1,"firsr","python",1,false))}
+    val courses = uiState.latestCourses
     val scrollState = rememberScrollState()
-    Column(modifier = Modifier.verticalScroll(scrollState)) {
-        Slider()
+    if(courses.isNotEmpty()) {
+        Column(modifier = Modifier.verticalScroll(scrollState)) {
+            Slider()
             MainSection(title = R.string.latestPots, content = {
-                CourseRow(courseList = uiState.latestCourses , onCourseClick = { onCourseClick(it) })
+                CourseRow(courseList = courses, onCourseClick = { onCourseClick(it) })
             })
-        MainSection(title = R.string.popular, content = {
-            CourseRow(courseList = mockDATA, onCourseClick = { onCourseClick(it) })
-        })
-        MainSection(title = R.string.editorschoice, content = {
-            CourseRow(courseList = mockDATA, onCourseClick = { onCourseClick(it) })
-        })
+            MainSection(title = R.string.popular, content = {
+                CourseRow(courseList = courses, onCourseClick = { onCourseClick(it) })
+            })
+            MainSection(title = R.string.editorschoice, content = {
+                CourseRow(courseList = courses, onCourseClick = { onCourseClick(it) })
+            })
         }
-}
+    } else {
+        Column(verticalArrangement = Arrangement.Center) {
+            CircularProgressIndicator()
+            Text("لطفا صبور باشید")
+        }
+    }
+    }
 
 @Composable
 fun MainSection(

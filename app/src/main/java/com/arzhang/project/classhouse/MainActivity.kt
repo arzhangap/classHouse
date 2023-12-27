@@ -8,12 +8,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.arzhang.project.classhouse.Local.LocalDataProvider
@@ -49,9 +54,11 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                 val navController = rememberNavController()
                 ClassHouseTheme {
+                    var topBar by remember {mutableStateOf(false)}
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
                     Scaffold(
                         topBar = {
-                            if (false) {
+                            if (navBackStackEntry?.destination?.route in setOf("course/{courseId}", "article/articleId", "search/{categoryId}+{categoryName}")) {
                                 MyAppBar(onBackButtonClick = { navController.navigateUp() })
                             }
                         },
@@ -63,6 +70,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(it)
                         ) {
                             composable(HomeDestinations.MainScreen.name) {
+                                topBar = true
                                 MainScreen(onCourseClick = { navController.navigate("course/$it") })
                             }
                             composable(HomeDestinations.Category.name) {

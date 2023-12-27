@@ -25,24 +25,32 @@ fun ArticleScreen(
 ) {
     val article by viewModel.uiState.collectAsState()
     // Declaring ExoPlayer
-    Surface(
-        color = MaterialTheme.colorScheme.secondary,
-        modifier = Modifier
-            .padding(top = 18.dp, start = 5.dp, end = 5.dp)
-            .fillMaxSize(),
-        shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-    {
-        Column {
-        Exo(article.videoUrl, Modifier.height(200.dp))
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp), Arrangement.SpaceBetween) {
-                Text(text = article.name, style = MaterialTheme.typography.titleSmall)
-                Text(text = article.date, style = MaterialTheme.typography.titleSmall)
+    if (article.id != 0) {
+        Surface(
+            color = MaterialTheme.colorScheme.secondary,
+            modifier = Modifier
+                .padding(top = 18.dp, start = 5.dp, end = 5.dp)
+                .fillMaxSize(),
+            shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+        )
+        {
+            Column {
+                Exo(article.videoUrl, Modifier.height(200.dp))
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp), Arrangement.SpaceBetween
+                ) {
+                    Text(text = article.name, style = MaterialTheme.typography.titleSmall)
+                    Text(text = article.date, style = MaterialTheme.typography.titleSmall)
+                }
+                Spacer(modifier = Modifier.padding(top = 10.dp))
+                Text(
+                    article.content,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(horizontal = 10.dp)
+                )
             }
-            Spacer(modifier = Modifier.padding(top = 10.dp))
-            Text(article.content, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(horizontal = 10.dp))
-        }
         }
     }
+}

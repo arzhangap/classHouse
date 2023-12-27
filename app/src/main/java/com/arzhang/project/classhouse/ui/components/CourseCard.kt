@@ -42,8 +42,8 @@ fun CourseCard(
                 Modifier.weight(1f)
             )
                 Text(
-                    text = course.name,
-                    style = MaterialTheme.typography.headlineMedium,
+                    text = if(course.name.length > 14) course.name.substring(0..14) + "..." else course.name,
+                    style = MaterialTheme.typography.headlineSmall,
                     textAlign = TextAlign.Right,
                     modifier = Modifier
                         .fillMaxWidth()

@@ -30,12 +30,6 @@ interface ClassHouseDao {
     @Update(entity = Course::class)
     suspend fun update(course: Course)
 
-//    @Query("SELECT * FROM course ORDER BY RAND() ASC LIMIT 10")
-//    fun getMostViewedCourses() : List<Course>
-//
-//    @Query("SELECT * FROM course ORDER BY RAND() ASC LIMIT 10")
-//    fun getChosenCourses() : List<Course>
-
     @Query("SELECT * FROM course WHERE course.is_fav = 1 ORDER BY id ASC")
     fun getFavCourses() : Flow<List<Course>>
 
